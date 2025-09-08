@@ -1,6 +1,5 @@
 package com.hoangkhoi.springboot_ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Product> listProducts;
 
     @Column(name = "created_at")

@@ -1,6 +1,5 @@
 package com.hoangkhoi.springboot_ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,6 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    @JsonBackReference
     private Category category;
 
     @Column(name = "created_at")
