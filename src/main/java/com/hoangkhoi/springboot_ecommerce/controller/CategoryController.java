@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -29,6 +30,20 @@ public class CategoryController {
                 true,
                 "Get list categories successfully!",
                 categories
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get category by ID")
+    public ResponseEntity<ApiResponse<CategoryRespDTO>> getCategoryById(@PathVariable UUID id) {
+        CategoryRespDTO category = categoryService.getCategoryById(id);
+
+        ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
+                true,
+                String.format("Get by id: %s successfully!", id),
+                category
         );
 
         return ResponseEntity.ok(response);

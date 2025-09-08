@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.exception.handler;
 
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
+import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,20 @@ public class GlobalExceptionHandler {
                 null
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNotFoundException(NotFoundException ex) {
+        System.out.println("-------------------------");
+        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        System.out.println("-------------------------");
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                false,
+                ex.getMessage(),
+                null
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     // fallback for other uncaught exceptions

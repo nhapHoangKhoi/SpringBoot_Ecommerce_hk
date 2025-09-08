@@ -3,6 +3,7 @@ package com.hoangkhoi.springboot_ecommerce.service.impl;
 import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
+import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.mapper.CategoryMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Category;
 import com.hoangkhoi.springboot_ecommerce.repository.CategoryRepository;
@@ -10,6 +11,7 @@ import com.hoangkhoi.springboot_ecommerce.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -30,6 +32,20 @@ public class CategoryServiceImpl implements CategoryService {
                 .toList();
 
         return categories;
+    }
+
+    @Override
+    public CategoryRespDTO getCategoryById(UUID id) {
+        Category category = categoryRepository
+                .findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id %s not found!", id)
+                    );
+                });
+
+        CategoryRespDTO categoryResponse = categoryMapper.toDto(category);
+        return categoryResponse;
     }
 
     @Override
