@@ -1,13 +1,13 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
+import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.service.impl.CategoryServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +29,20 @@ public class CategoryController {
                 true,
                 "Get list categories successfully!",
                 categories
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new category")
+    public ResponseEntity<ApiResponse<CategoryRespDTO>> createCategory(@RequestBody @Valid CategoryReqDTO request) {
+        CategoryRespDTO categoryResponse = categoryService.createCategory(request);
+
+        ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
+                true,
+                String.format("Create category %s successfully!", request.getName()),
+                categoryResponse
         );
 
         return ResponseEntity.ok(response);

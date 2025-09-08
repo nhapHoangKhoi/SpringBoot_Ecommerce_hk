@@ -1,7 +1,10 @@
 package com.hoangkhoi.springboot_ecommerce.service.impl;
 
+import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
+import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
 import com.hoangkhoi.springboot_ecommerce.mapper.CategoryMapper;
+import com.hoangkhoi.springboot_ecommerce.model.Category;
 import com.hoangkhoi.springboot_ecommerce.repository.CategoryRepository;
 import com.hoangkhoi.springboot_ecommerce.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -27,5 +30,20 @@ public class CategoryServiceImpl implements CategoryService {
                 .toList();
 
         return categories;
+    }
+
+    @Override
+    public CategoryRespDTO createCategory(CategoryReqDTO request) {
+        if(categoryRepository.findByName(request.getName()).isPresent()) {
+            throw new BadRequestException(
+                    String.format("%s already exists!", request.getName())
+            );
+        }
+
+        Category categoryModel = categoryMapper.toEntity(request);
+        Category newCategoryModel = categoryRepository.save(categoryModel);
+
+        CategoryRespDTO categoryResponse = categoryMapper.toDto(newCategoryModel);
+        return categoryResponse;
     }
 }
