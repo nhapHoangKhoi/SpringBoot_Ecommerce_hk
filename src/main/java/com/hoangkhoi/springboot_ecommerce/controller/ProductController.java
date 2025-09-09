@@ -1,15 +1,18 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.ProductReqDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.response.ProductImageRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
+import com.hoangkhoi.springboot_ecommerce.service.ProductImageService;
 import com.hoangkhoi.springboot_ecommerce.service.impl.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductController {
     private final ProductServiceImpl productService;
+    private final ProductImageService productImageService;
 
     @GetMapping
     @Operation(summary = "Get list products")
@@ -61,6 +65,28 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    //----- Product images -----//
+    @PostMapping(
+            value = "/{id}/images",
+            consumes = {"multipart/form-data"}
+    )
+    @Operation(summary = "Add 1 image to product")
+    public ResponseEntity<ApiResponse<ProductImageRespDTO>> addImageToProduct(
+            @PathVariable("id") UUID productId,
+            @RequestParam("file") MultipartFile file
+    ) {
+        ProductImageRespDTO productImage = productImageService.addImageToProduct(productId, file);
+
+        ApiResponse<ProductImageRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.CREATE_SUCCESS, "image", ""),
+                productImage
+        );
+
+        return ResponseEntity.ok(response);
+    }
+    //----- End product images -----//
 
     @PutMapping("/{id}")
     @Operation(summary = "Update product")
