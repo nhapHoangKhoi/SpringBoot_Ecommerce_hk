@@ -3,6 +3,7 @@ package com.hoangkhoi.springboot_ecommerce.controller;
 import com.hoangkhoi.springboot_ecommerce.dto.request.ProductReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
+import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.impl.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class ProductController {
 
         ApiResponse<List<ProductRespDTO>> response = new ApiResponse<>(
                 true,
-                "Get list products successfully!",
+                String.format(SuccessMessages.GET_ALL_SUCCESS, "products"),
                 products
         );
 
@@ -40,7 +41,7 @@ public class ProductController {
 
         ApiResponse<ProductRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Get by id: %s successfully!", id),
+                String.format(SuccessMessages.GET_BY_ID_SUCCESS, id),
                 product
         );
 
@@ -54,7 +55,7 @@ public class ProductController {
 
         ApiResponse<ProductRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Create product %s successfully!", request.getName()),
+                String.format(SuccessMessages.CREATE_SUCCESS, "product", request.getName()),
                 product
         );
 
@@ -71,7 +72,7 @@ public class ProductController {
 
         ApiResponse<ProductRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Update product %s successfully!", productResponse.getName()),
+                String.format(SuccessMessages.UPDATE_SUCCESS, "product", productResponse.getName()),
                 productResponse
         );
 

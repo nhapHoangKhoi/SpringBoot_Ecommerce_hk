@@ -3,6 +3,7 @@ package com.hoangkhoi.springboot_ecommerce.service.impl;
 import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
+import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
 import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.mapper.CategoryMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Category;
@@ -37,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", id)
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, id)
                     );
                 });
 
@@ -49,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryRespDTO createCategory(CategoryReqDTO request) {
         if(categoryRepository.findByName(request.getName()).isPresent()) {
             throw new BadRequestException(
-                    String.format("%s already exists!", request.getName())
+                    String.format(ExceptionMessages.ALREADY_EXISTS, request.getName())
             );
         }
 
@@ -66,14 +67,14 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", id)
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, id)
                     );
                 });
 
         // check if another category has this name
         if(categoryRepository.existsByNameAndIdNot(request.getName(), id)) {
             throw new BadRequestException(
-                    String.format("%s already exists!", request.getName())
+                    String.format(ExceptionMessages.ALREADY_EXISTS, request.getName())
             );
         }
 

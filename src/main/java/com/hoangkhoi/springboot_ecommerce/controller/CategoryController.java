@@ -3,6 +3,7 @@ package com.hoangkhoi.springboot_ecommerce.controller;
 import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
+import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.impl.CategoryServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class CategoryController {
 
         ApiResponse<List<CategoryRespDTO>> response = new ApiResponse<>(
                 true,
-                "Get list categories successfully!",
+                String.format(SuccessMessages.GET_ALL_SUCCESS, "categories"),
                 categories
         );
 
@@ -40,7 +41,7 @@ public class CategoryController {
 
         ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Get by id: %s successfully!", id),
+                String.format(SuccessMessages.GET_BY_ID_SUCCESS, id),
                 category
         );
 
@@ -54,7 +55,7 @@ public class CategoryController {
 
         ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Create category %s successfully!", request.getName()),
+                String.format(SuccessMessages.CREATE_SUCCESS, "category", request.getName()),
                 categoryResponse
         );
 
@@ -71,7 +72,7 @@ public class CategoryController {
 
         ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
                 true,
-                String.format("Update category %s successfully!", categoryResponse.getName()),
+                String.format(SuccessMessages.UPDATE_SUCCESS, "category", categoryResponse.getName()),
                 categoryResponse
         );
 

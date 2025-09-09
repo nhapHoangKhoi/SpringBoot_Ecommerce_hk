@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.exception.handler;
 
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
+import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
 import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiResponse<Void>> handleBadRequest(BadRequestException ex) {
         System.out.println("-------------------------");
-        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        logger.error(ExceptionMessages.UNEXPECTED_ERROR, ex.getMessage(), ex);
         System.out.println("-------------------------");
 
         ApiResponse<Void> response = new ApiResponse<>(
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFoundException(NotFoundException ex) {
         System.out.println("-------------------------");
-        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        logger.error(ExceptionMessages.UNEXPECTED_ERROR, ex.getMessage(), ex);
         System.out.println("-------------------------");
 
         ApiResponse<Void> response = new ApiResponse<>(
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex
     ) {
         System.out.println("-------------------------");
-        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        logger.error(ExceptionMessages.UNEXPECTED_ERROR, ex.getMessage(), ex);
         System.out.println("-------------------------");
 
         Map<String, String> errors = new HashMap<>();
@@ -92,7 +93,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGeneralException(Exception ex) {
         System.out.println("-------------------------");
-        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        logger.error(ExceptionMessages.UNEXPECTED_ERROR, ex.getMessage(), ex);
         System.out.println("-------------------------");
 
         ApiResponse<Void> response = new ApiResponse<>(

@@ -2,6 +2,7 @@ package com.hoangkhoi.springboot_ecommerce.service.impl;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.ProductReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
+import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
 import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.mapper.ProductMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Category;
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
                 .findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", id)
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, id)
                     );
                 });
 
@@ -55,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
                 .findById(request.getCategoryId())
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", request.getCategoryId())
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, request.getCategoryId())
                     );
                 });
 
@@ -74,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
                 .findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", request.getCategoryId())
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, request.getCategoryId())
                     );
                 });
 
@@ -82,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
                 .findById(request.getCategoryId())
                 .orElseThrow(() -> {
                     return new NotFoundException(
-                            String.format("Id %s not found!", request.getCategoryId())
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, request.getCategoryId())
                     );
                 });
 
