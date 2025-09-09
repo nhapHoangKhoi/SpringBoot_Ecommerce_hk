@@ -78,4 +78,18 @@ public class CategoryController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete category")
+    public ResponseEntity<ApiResponse<Void>> deleteCategory(@PathVariable UUID id) {
+        categoryService.deleteCategory(id);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "category", id),
+                null
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }

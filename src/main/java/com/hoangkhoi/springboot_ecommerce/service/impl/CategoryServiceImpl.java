@@ -34,8 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryRespDTO getCategoryById(UUID id) {
-        Category category = categoryRepository
-                .findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
                             String.format("Id " + ExceptionMessages.NOT_FOUND, id)
@@ -63,8 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryRespDTO updateCategory(UUID id, CategoryReqDTO request) {
-        Category existedCategory = categoryRepository
-                .findById(id)
+        Category existedCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> {
                     return new NotFoundException(
                             String.format("Id " + ExceptionMessages.NOT_FOUND, id)
@@ -83,5 +81,17 @@ public class CategoryServiceImpl implements CategoryService {
         Category newCategoryModel = categoryRepository.save(existedCategory);
         CategoryRespDTO categoryResponse = categoryMapper.toDto(newCategoryModel);
         return categoryResponse;
+    }
+
+    @Override
+    public void deleteCategory(UUID id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, id)
+                    );
+                });
+
+        categoryRepository.delete(category);
     }
 }
