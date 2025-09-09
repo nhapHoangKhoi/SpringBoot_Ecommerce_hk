@@ -10,4 +10,5 @@ public interface ProductImageService {
     ProductImageRespDTO addImageToProduct(UUID productId, MultipartFile file);
     // List<ProductImageRespDTO> addImagesToProduct(UUID productId, List<MultipartFile> files);
     List<ProductImageRespDTO> getImagesByProductId(UUID productId);
+    void deleteImage(UUID imageId);
 }

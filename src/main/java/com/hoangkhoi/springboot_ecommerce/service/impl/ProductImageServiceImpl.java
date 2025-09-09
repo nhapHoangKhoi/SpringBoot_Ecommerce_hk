@@ -81,4 +81,16 @@ public class ProductImageServiceImpl implements ProductImageService {
 
         return images;
     }
+
+    @Override
+    public void deleteImage(UUID imageId) {
+        ProductImage productImage = productImageRepository.findById(imageId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("ImageId " + ExceptionMessages.NOT_FOUND, imageId))
+                );
+
+        cloudinaryService.deleteAssetFromCloudinary(productImage.getImageUrl());
+
+        productImageRepository.delete(productImage);
+    }
 }

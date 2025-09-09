@@ -109,13 +109,29 @@ public class ProductController {
 
     @GetMapping("/{id}/images")
     @Operation(summary = "Get all images by productId")
-    public ResponseEntity<ApiResponse<?>> getListImagesOfProduct(@PathVariable("id") UUID productId) {
+    public ResponseEntity<ApiResponse<List<ProductImageRespDTO>>> getListImagesOfProduct(
+            @PathVariable("id") UUID productId
+    ) {
         List<ProductImageRespDTO> images = productImageService.getImagesByProductId(productId);
 
         ApiResponse<List<ProductImageRespDTO>> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.GET_ALL_SUCCESS, "product images"),
                 images
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/images/{id}")
+    @Operation(summary = "Delete product image - separately")
+    public ResponseEntity<ApiResponse<Void>> deleteImageSeparately(@PathVariable("id") UUID imageId) {
+        productImageService.deleteImage(imageId);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "product image", imageId),
+                null
         );
 
         return ResponseEntity.ok(response);
