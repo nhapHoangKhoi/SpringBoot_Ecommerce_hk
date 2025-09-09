@@ -62,4 +62,21 @@ public class CategoryController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update category")
+    public ResponseEntity<ApiResponse<CategoryRespDTO>> updateCategory(
+            @PathVariable UUID id,
+            @RequestBody @Valid CategoryReqDTO request
+    ) {
+        CategoryRespDTO categoryResponse = categoryService.updateCategory(id, request);
+
+        ApiResponse<CategoryRespDTO> response = new ApiResponse<>(
+                true,
+                String.format("Update category %s successfully!", categoryResponse.getName()),
+                categoryResponse
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }

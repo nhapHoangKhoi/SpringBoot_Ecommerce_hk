@@ -62,4 +62,28 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryRespDTO categoryResponse = categoryMapper.toDto(newCategoryModel);
         return categoryResponse;
     }
+
+    @Override
+    public CategoryRespDTO updateCategory(UUID id, CategoryReqDTO request) {
+        Category existedCategory = categoryRepository
+                .findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id %s not found!", id)
+                    );
+                });
+
+        // check if another category has this name
+        if(categoryRepository.existsByNameAndIdNot(request.getName(), id)) {
+            throw new BadRequestException(
+                    String.format("%s already exists!", request.getName())
+            );
+        }
+
+        categoryMapper.updateEntityFromDto(request, existedCategory);
+
+        Category newCategoryModel = categoryRepository.save(existedCategory);
+        CategoryRespDTO categoryResponse = categoryMapper.toDto(newCategoryModel);
+        return categoryResponse;
+    }
 }

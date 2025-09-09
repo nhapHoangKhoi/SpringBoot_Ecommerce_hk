@@ -10,4 +10,5 @@ public interface CategoryService {
     List<CategoryRespDTO> getAllCategories();
     CategoryRespDTO getCategoryById(UUID id);
     CategoryRespDTO createCategory(CategoryReqDTO request);
+    CategoryRespDTO updateCategory(UUID id, CategoryReqDTO request);
 }
