@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface ProductImageService {
     ProductImageRespDTO addImageToProduct(UUID productId, MultipartFile file);
+    // List<ProductImageRespDTO> addImagesToProduct(UUID productId, List<MultipartFile> files);
 }

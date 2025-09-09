@@ -86,6 +86,26 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    // @PostMapping(
+    //         value = "/{id}/images",
+    //         consumes = {"multipart/form-data"}
+    // )
+    // @Operation(summary = "Add multiple images to product")
+    // public ResponseEntity<ApiResponse<List<ProductImageRespDTO>>> addImagesToProduct(
+    //         @PathVariable("id") UUID productId,
+    //         @RequestParam("files") List<MultipartFile> files
+    // ) {
+    //     List<ProductImageRespDTO> productImages = productImageService.addImagesToProduct(productId, files);
+    //
+    //     ApiResponse<List<ProductImageRespDTO>> response = new ApiResponse<>(
+    //             true,
+    //             String.format(SuccessMessages.CREATE_SUCCESS, "images", ""),
+    //             productImages
+    //     );
+    //
+    //     return ResponseEntity.ok(response);
+    // }
     //----- End product images -----//
 
     @PutMapping("/{id}")

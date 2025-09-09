@@ -43,4 +43,30 @@ public class ProductImageServiceImpl implements ProductImageService {
         ProductImageRespDTO productImageResponse = productImageMapper.toDto(newProductImageModel);
         return productImageResponse;
     }
+
+    // @Override
+    // @Transactional
+    // public List<ProductImageRespDTO> addImagesToProduct(UUID productId, List<MultipartFile> files) {
+    //     Product product = productRepository.findById(productId)
+    //             .orElseThrow(() -> new NotFoundException(
+    //                     String.format("Id " + ExceptionMessages.NOT_FOUND, productId))
+    //             );
+    //
+    //     List<ProductImageRespDTO> responses = new ArrayList<>();
+    //
+    //     for(MultipartFile file : files) {
+    //         // upload the image to Cloudinary and get the URL
+    //         String imageUrl = cloudinaryService.uploadImageToCloudinary(file);
+    //
+    //         ProductImage productImageModel = new ProductImage();
+    //         productImageModel.setProduct(product);
+    //         productImageModel.setImageUrl(imageUrl);
+    //
+    //         ProductImage savedImage = productImageRepository.save(productImageModel);
+    //
+    //         responses.add(productImageMapper.toDto(savedImage));
+    //     }
+    //
+    //     return responses;
+    // }
 }
