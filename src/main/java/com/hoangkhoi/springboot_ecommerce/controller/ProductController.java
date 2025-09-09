@@ -78,4 +78,18 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete product soft")
+    public ResponseEntity<ApiResponse<Void>> deleteProductSoft(@PathVariable UUID id) {
+        productService.deleteProductSoft(id);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "soft product", id),
+                null
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }

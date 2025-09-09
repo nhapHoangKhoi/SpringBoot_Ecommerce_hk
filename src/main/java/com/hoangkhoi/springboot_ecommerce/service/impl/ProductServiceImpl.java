@@ -94,4 +94,17 @@ public class ProductServiceImpl implements ProductService {
         ProductRespDTO productResponse = productMapper.toDto(newProductModel);
         return productResponse;
     }
+
+    @Override
+    public void deleteProductSoft(UUID id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id " + ExceptionMessages.NOT_FOUND, id)
+                    );
+                });
+
+        product.setDeleted(true);
+        productRepository.save(product);
+    }
 }
