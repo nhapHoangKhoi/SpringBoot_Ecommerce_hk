@@ -71,7 +71,7 @@ public class ProductController {
             value = "/{id}/images",
             consumes = {"multipart/form-data"}
     )
-    @Operation(summary = "Add 1 image to product")
+    @Operation(summary = "Add 1 image to product per time")
     public ResponseEntity<ApiResponse<ProductImageRespDTO>> addImageToProduct(
             @PathVariable("id") UUID productId,
             @RequestParam("file") MultipartFile file
@@ -91,7 +91,7 @@ public class ProductController {
     //         value = "/{id}/images",
     //         consumes = {"multipart/form-data"}
     // )
-    // @Operation(summary = "Add multiple images to product")
+    // @Operation(summary = "Add multiple images to product at the same time")
     // public ResponseEntity<ApiResponse<List<ProductImageRespDTO>>> addImagesToProduct(
     //         @PathVariable("id") UUID productId,
     //         @RequestParam("files") List<MultipartFile> files

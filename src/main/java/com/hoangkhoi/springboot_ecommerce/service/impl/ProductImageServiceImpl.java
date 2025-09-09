@@ -32,7 +32,7 @@ public class ProductImageServiceImpl implements ProductImageService {
                 );
 
         // upload the image to Cloudinary and get the URL
-        String imageUrl = cloudinaryService.uploadImageToCloudinary(file);
+        String imageUrl = cloudinaryService.uploadAssetToCloudinary(file);
 
         ProductImage productImageModel = new ProductImage();
         productImageModel.setProduct(product);
@@ -56,7 +56,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     //
     //     for(MultipartFile file : files) {
     //         // upload the image to Cloudinary and get the URL
-    //         String imageUrl = cloudinaryService.uploadImageToCloudinary(file);
+    //         String imageUrl = cloudinaryService.uploadAssetToCloudinary(file);
     //
     //         ProductImage productImageModel = new ProductImage();
     //         productImageModel.setProduct(product);

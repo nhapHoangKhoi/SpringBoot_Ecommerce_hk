@@ -18,7 +18,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     private final Cloudinary cloudinary;
 
     @Override
-    public String uploadImageToCloudinary(MultipartFile file) {
+    public String uploadAssetToCloudinary(MultipartFile file) {
         try {
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             String imageUrl = (String) uploadResult.get("secure_url");
@@ -27,5 +27,23 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         catch (IOException io) {
             throw new BadRequestException(ExceptionMessages.IMAGE_UPLOAD_FAILED);
         }
+    }
+
+    // https://res.cloudinary.com/rjklkimn/image/upload/v1741568358/abcdefgh.png
+    @Override
+    public void deleteAssetFromCloudinary(String imageUrl) {
+        try {
+            String publicId = extractPublicId(imageUrl);
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        }
+        catch (IOException e) {
+            throw new BadRequestException(ExceptionMessages.IMAGE_DELETE_FAILED);
+        }
+    }
+
+    private String extractPublicId(String imageUrl) {
+        // pop out the last then split by symbol dot "."
+        String[] parts = imageUrl.split("/");
+        return parts[parts.length - 1].split("\\.")[0];
     }
 }
