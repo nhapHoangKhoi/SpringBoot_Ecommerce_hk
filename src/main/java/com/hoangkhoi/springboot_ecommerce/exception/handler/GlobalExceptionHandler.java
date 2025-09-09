@@ -7,8 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -40,6 +45,47 @@ public class GlobalExceptionHandler {
                 null
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(
+            MethodArgumentNotValidException ex
+    ) {
+        System.out.println("-------------------------");
+        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        System.out.println("-------------------------");
+
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        // Example 1:
+        // "name: Category name cannot be blank!; description: Description name cannot be blank!"
+        String combinedMessages = errors
+                .entrySet()
+                .stream()
+                // .map(eachEntry -> eachEntry.getKey() + ": " + eachEntry.getValue())
+                .map(eachEntry -> eachEntry.getValue())
+                .collect(Collectors.joining("; "));
+
+        // Example 2 (only take the very first message):
+        // "name: Category name cannot be blank!"
+        // String firstMessage = errors
+        //         .entrySet()
+        //         .stream()
+        //         .findFirst()
+        //         .map(eachEntry -> eachEntry.getKey() + ": " + eachEntry.getValue())
+        //         .get();
+
+        ApiResponse<Map<String, String>> response = new ApiResponse<>(
+                false,
+                combinedMessages,
+                null
+        );
+
+        return ResponseEntity.badRequest().body(response);
     }
 
     // fallback for other uncaught exceptions
