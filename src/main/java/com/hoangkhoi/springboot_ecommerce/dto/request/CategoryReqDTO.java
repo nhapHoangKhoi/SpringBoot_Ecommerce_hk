@@ -11,4 +11,7 @@ public class CategoryReqDTO {
     @NotBlank(message = "Category name cannot be blank!")
     @Size(max = 100, message = "Category name must not exceed {max} characters!")
     private String name;
+
+    @Size(max = 2000, message = "Description must not exceed {max} characters!")
+    private String description;
 }

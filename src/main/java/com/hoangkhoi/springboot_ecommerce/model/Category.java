@@ -20,6 +20,9 @@ public class Category {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+    @Column(name = "description", length = 2000)
+    private String description;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> listProducts;
 
