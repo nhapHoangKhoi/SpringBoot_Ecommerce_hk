@@ -9,26 +9,18 @@ import com.hoangkhoi.springboot_ecommerce.model.Product;
 import com.hoangkhoi.springboot_ecommerce.repository.CategoryRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.ProductRepository;
 import com.hoangkhoi.springboot_ecommerce.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
-
-    public ProductServiceImpl(
-            ProductRepository productRepository,
-            CategoryRepository categoryRepository,
-            ProductMapper productMapper
-    ) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-        this.productMapper = productMapper;
-    }
 
     @Override
     public List<ProductRespDTO> getAllProducts() {
