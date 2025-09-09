@@ -5,6 +5,7 @@ import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(
         componentModel = "spring",
@@ -24,4 +25,6 @@ public interface ProductMapper {
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "updatedAt", source = "updatedAt")
     ProductRespDTO toDto(Product entity);
+
+    void updateEntityFromDto(ProductReqDTO requestDto, @MappingTarget Product existedEntity);
 }

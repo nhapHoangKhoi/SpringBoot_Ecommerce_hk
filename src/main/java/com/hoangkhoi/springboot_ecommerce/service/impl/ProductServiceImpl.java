@@ -75,4 +75,30 @@ public class ProductServiceImpl implements ProductService {
         ProductRespDTO productResponse = productMapper.toDto(newProductModel);
         return productResponse;
     }
+
+    @Override
+    public ProductRespDTO updateProduct(UUID id, ProductReqDTO request) {
+        Product existedProduct = productRepository
+                .findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id %s not found!", request.getCategoryId())
+                    );
+                });
+
+        Category category = categoryRepository
+                .findById(request.getCategoryId())
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id %s not found!", request.getCategoryId())
+                    );
+                });
+
+        productMapper.updateEntityFromDto(request, existedProduct);
+        existedProduct.setCategory(category);
+
+        Product newProductModel = productRepository.save(existedProduct);
+        ProductRespDTO productResponse = productMapper.toDto(newProductModel);
+        return productResponse;
+    }
 }

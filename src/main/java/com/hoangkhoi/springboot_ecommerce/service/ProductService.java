@@ -10,4 +10,5 @@ public interface ProductService {
     List<ProductRespDTO> getAllProducts();
     ProductRespDTO getProductById(UUID id);
     ProductRespDTO createProduct(ProductReqDTO request);
+    ProductRespDTO updateProduct(UUID id, ProductReqDTO request);
 }

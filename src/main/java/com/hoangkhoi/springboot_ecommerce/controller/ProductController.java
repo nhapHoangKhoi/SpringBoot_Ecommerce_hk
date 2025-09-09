@@ -62,4 +62,21 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update product")
+    public ResponseEntity<ApiResponse<ProductRespDTO>> updateProduct(
+            @PathVariable UUID id,
+            @RequestBody @Valid ProductReqDTO request
+    ) {
+        ProductRespDTO productResponse = productService.updateProduct(id, request);
+
+        ApiResponse<ProductRespDTO> response = new ApiResponse<>(
+                true,
+                String.format("Update product %s successfully!", productResponse.getName()),
+                productResponse
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }
