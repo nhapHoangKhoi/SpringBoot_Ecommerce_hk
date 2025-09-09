@@ -1,12 +1,16 @@
 package com.hoangkhoi.springboot_ecommerce.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "products")
+@Getter
+@Setter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,48 +39,4 @@ public class Product {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
-    //----- Start getter, setter -----//
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    //----- End getter, setter -----//
 }
