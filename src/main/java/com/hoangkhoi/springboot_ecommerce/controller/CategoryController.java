@@ -6,6 +6,7 @@ import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.service.impl.CategoryServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@AllArgsConstructor
 public class CategoryController {
     private final CategoryServiceImpl categoryService;
-
-    public CategoryController(CategoryServiceImpl categoryService) {
-        this.categoryService = categoryService;
-    }
 
     @GetMapping
     @Operation(summary = "Get list categories")

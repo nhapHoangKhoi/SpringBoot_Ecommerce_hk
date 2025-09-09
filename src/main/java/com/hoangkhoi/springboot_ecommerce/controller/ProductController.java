@@ -6,6 +6,7 @@ import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.service.impl.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@AllArgsConstructor
 public class ProductController {
     private final ProductServiceImpl productService;
-
-    public ProductController(ProductServiceImpl productService) {
-        this.productService = productService;
-    }
 
     @GetMapping
     @Operation(summary = "Get list products")
