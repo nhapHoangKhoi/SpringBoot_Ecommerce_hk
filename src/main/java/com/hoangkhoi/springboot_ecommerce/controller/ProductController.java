@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -29,6 +30,20 @@ public class ProductController {
                 true,
                 "Get list products successfully!",
                 products
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get product by ID")
+    public ResponseEntity<ApiResponse<ProductRespDTO>> getProductById(@PathVariable UUID id) {
+        ProductRespDTO product = productService.getProductById(id);
+
+        ApiResponse<ProductRespDTO> response = new ApiResponse<>(
+                true,
+                String.format("Get by id: %s successfully!", id),
+                product
         );
 
         return ResponseEntity.ok(response);

@@ -12,6 +12,7 @@ import com.hoangkhoi.springboot_ecommerce.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -38,6 +39,20 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
 
         return products;
+    }
+
+    @Override
+    public ProductRespDTO getProductById(UUID id) {
+        Product product = productRepository
+                .findById(id)
+                .orElseThrow(() -> {
+                    return new NotFoundException(
+                            String.format("Id %s not found!", id)
+                    );
+                });
+
+        ProductRespDTO productResponse = productMapper.toDto(product);
+        return productResponse;
     }
 
     @Override
