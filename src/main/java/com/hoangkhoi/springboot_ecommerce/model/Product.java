@@ -25,18 +25,21 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @Column(name = "description", length = 2000)
+    private String description;
+
     @Column(name = "price", precision = 15, nullable = false)
     private BigDecimal price;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private ProductStatus status = ProductStatus.ACTIVE;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
 
-    @Column(name = "is_featured")
-    private boolean isFeatured;
+    @Column(name = "is_featured", nullable = false)
+    private boolean isFeatured = false;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -14,16 +14,8 @@ import org.mapstruct.MappingTarget;
         }
 )
 public interface ProductMapper {
-    @Mapping(target = "name", source = "name")
-        // @Mapping(target = "category.id", source = "categoryId") // only for more clear, readability,
-        // this will make duplicated in "target" folder file
     Product toEntity(ProductReqDTO dto);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "category", source = "category")
-    @Mapping(target = "createdAt", source = "createdAt")
-    @Mapping(target = "updatedAt", source = "updatedAt")
     ProductRespDTO toDto(Product entity);
 
     void updateEntityFromDto(ProductReqDTO requestDto, @MappingTarget Product existedEntity);

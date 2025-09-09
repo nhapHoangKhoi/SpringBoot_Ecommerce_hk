@@ -1,11 +1,11 @@
 package com.hoangkhoi.springboot_ecommerce.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.hoangkhoi.springboot_ecommerce.enums.ProductStatus;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -17,4 +17,18 @@ public class ProductReqDTO {
 
     @NotNull(message = "Category cannot be blank!")
     private UUID categoryId;
+
+    @Size(max = 2000, message = "Description must not exceed {max} characters!")
+    private String description;
+
+    @NotNull(message = "Price cannot be blank!")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Price must be >= 0!") // value 0 && inclusive true => value >= 0
+    @Digits(integer = 15, fraction = 2)
+    private BigDecimal price;
+
+    @NotNull(message = "Product status cannot be blank!")
+    private ProductStatus status;
+
+    private boolean isFeatured;
+    private boolean isDeleted;
 }
