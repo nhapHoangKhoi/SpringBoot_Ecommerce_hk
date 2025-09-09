@@ -33,6 +33,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryRespDTO> getCategoryByName(String name) {
+        List<CategoryRespDTO> categories = categoryRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(categoryMapper::toDto)
+                .toList();
+
+        return categories;
+    }
+
+    @Override
     public CategoryRespDTO getCategoryById(UUID id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> {

@@ -22,8 +22,10 @@ public class CategoryController {
 
     @GetMapping
     @Operation(summary = "Get list categories")
-    public ResponseEntity<ApiResponse<List<CategoryRespDTO>>> getAllCategories() {
-        List<CategoryRespDTO> categories = categoryService.getAllCategories();
+    public ResponseEntity<ApiResponse<List<CategoryRespDTO>>> getAllCategories(
+            @RequestParam(defaultValue = "") String search
+    ) {
+        List<CategoryRespDTO> categories = categoryService.getCategoryByName(search);
 
         ApiResponse<List<CategoryRespDTO>> response = new ApiResponse<>(
                 true,
