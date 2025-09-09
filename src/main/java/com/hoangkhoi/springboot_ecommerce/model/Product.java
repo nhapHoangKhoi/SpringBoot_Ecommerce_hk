@@ -1,9 +1,11 @@
 package com.hoangkhoi.springboot_ecommerce.model;
 
+import com.hoangkhoi.springboot_ecommerce.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -22,6 +24,19 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @Column(name = "price", precision = 15, nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "status", length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    @Column(name = "is_featured")
+    private boolean isFeatured;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
