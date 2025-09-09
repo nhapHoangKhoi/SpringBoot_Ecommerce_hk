@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.service.impl;
 
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductImageRespDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
 import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.mapper.ProductImageMapper;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -69,4 +71,14 @@ public class ProductImageServiceImpl implements ProductImageService {
     //
     //     return responses;
     // }
+
+    @Override
+    public List<ProductImageRespDTO> getImagesByProductId(UUID productId) {
+        List<ProductImageRespDTO> images = productImageRepository.findByProductId(productId)
+                .stream()
+                .map(productImageMapper::toDto)
+                .toList();
+
+        return images;
+    }
 }

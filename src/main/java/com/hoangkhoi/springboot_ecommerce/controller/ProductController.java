@@ -106,6 +106,20 @@ public class ProductController {
     //
     //     return ResponseEntity.ok(response);
     // }
+
+    @GetMapping("/{id}/images")
+    @Operation(summary = "Get all images by productId")
+    public ResponseEntity<ApiResponse<?>> getListImagesOfProduct(@PathVariable("id") UUID productId) {
+        List<ProductImageRespDTO> images = productImageService.getImagesByProductId(productId);
+
+        ApiResponse<List<ProductImageRespDTO>> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_ALL_SUCCESS, "product images"),
+                images
+        );
+
+        return ResponseEntity.ok(response);
+    }
     //----- End product images -----//
 
     @PutMapping("/{id}")
