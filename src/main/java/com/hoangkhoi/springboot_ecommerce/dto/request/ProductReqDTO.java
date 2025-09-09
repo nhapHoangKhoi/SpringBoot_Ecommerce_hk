@@ -3,9 +3,13 @@ package com.hoangkhoi.springboot_ecommerce.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
 public class ProductReqDTO {
     @NotBlank(message = "Product name cannot be blank!")
     @Size(max = 100, message = "Product name must not exceed {max} characters!")
@@ -13,24 +17,4 @@ public class ProductReqDTO {
 
     @NotNull(message = "Category cannot be blank!")
     private UUID categoryId;
-
-    //----- Start getter, setter -----//
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public UUID getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(UUID categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    //----- End getter, setter -----//
 }
