@@ -1,12 +1,15 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
+import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,22 @@ public class UserController {
                 true,
                 String.format("Sign up account successfully!"),
                 userResponse
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login into the system")
+    public ResponseEntity<ApiResponse<JwtAuthenRespDTO>> login(
+            @RequestBody @Valid JwtAuthenReqDTO request,
+            HttpServletResponse httpResponse
+    ){
+        JwtAuthenRespDTO authenResponse = userService.login(request, httpResponse);
+
+        ApiResponse<JwtAuthenRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.LOGIN_SUCCESS_MESSAGE),
+                authenResponse
         );
         return ResponseEntity.ok(response);
     }
