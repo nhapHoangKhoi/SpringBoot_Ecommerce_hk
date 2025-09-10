@@ -9,4 +9,5 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface UserService {
     UserSignUpRespDTO signUp(UserSignUpReqDTO request);
     JwtAuthenRespDTO login(JwtAuthenReqDTO request, HttpServletResponse response);
+    void logout(HttpServletResponse httpServletResponse);
 }

@@ -1,4 +1,4 @@
-package com.hoangkhoi.springboot_ecommerce.repository;
+package com.hoangkhoi.springboot_ecommerce.mapper;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.model.UserInfo;

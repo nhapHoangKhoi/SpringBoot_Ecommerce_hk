@@ -12,7 +12,7 @@ import com.hoangkhoi.springboot_ecommerce.mapper.UserMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Role;
 import com.hoangkhoi.springboot_ecommerce.model.User;
 import com.hoangkhoi.springboot_ecommerce.repository.RoleRepository;
-import com.hoangkhoi.springboot_ecommerce.repository.UserInfoMapper;
+import com.hoangkhoi.springboot_ecommerce.mapper.UserInfoMapper;
 import com.hoangkhoi.springboot_ecommerce.repository.UserInfoRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.UserRepository;
 import com.hoangkhoi.springboot_ecommerce.security.JwtTokenProvider;
@@ -98,11 +98,20 @@ public class UserServiceImpl implements UserService {
         return jwtAuthenResponse;
     }
 
+    @Override
+    public void logout(HttpServletResponse response) {
+        // Create an expired cookie
+        ResponseCookie cookie = createCookie("", 0);
+
+        // Add the cookie to the response
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
+
     //----- Helper methods -----//
     private ResponseCookie createCookie(String token, long maxAge) {
         return ResponseCookie.from("spring_token", token)
-                .httpOnly(true)
-                .secure(false)
+                .httpOnly(true) // only Server is allowed to access this cookie
+                .secure(false)  // true: website https, false: website not https
                 .path("/")
                 .maxAge(maxAge)
                 .sameSite("Strict")

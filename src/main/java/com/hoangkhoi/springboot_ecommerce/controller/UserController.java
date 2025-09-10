@@ -42,13 +42,26 @@ public class UserController {
     public ResponseEntity<ApiResponse<JwtAuthenRespDTO>> login(
             @RequestBody @Valid JwtAuthenReqDTO request,
             HttpServletResponse httpResponse
-    ){
+    ) {
         JwtAuthenRespDTO authenResponse = userService.login(request, httpResponse);
 
         ApiResponse<JwtAuthenRespDTO> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.LOGIN_SUCCESS_MESSAGE),
                 authenResponse
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "Logout the system")
+    public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse httpResponse) {
+        userService.logout(httpResponse);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.LOGOUT_SUCCESS_MESSAGE),
+                null
         );
         return ResponseEntity.ok(response);
     }
