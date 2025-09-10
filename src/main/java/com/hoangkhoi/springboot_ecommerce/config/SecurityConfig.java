@@ -1,6 +1,8 @@
 package com.hoangkhoi.springboot_ecommerce.config;
 
 import com.hoangkhoi.springboot_ecommerce.enums.RoleName;
+import com.hoangkhoi.springboot_ecommerce.security.JwtAuthenticationEntryPoint;
+import com.hoangkhoi.springboot_ecommerce.security.JwtAuthenticationFilter;
 import com.hoangkhoi.springboot_ecommerce.security.SecurityApiConstants;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -29,6 +31,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationFilter authenticationFilter;
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -49,9 +54,22 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(SecurityApiConstants.PUBLIC_API).permitAll()
+
+                    // .requestMatchers(HttpMethod.GET, SecurityApiConstants.ADMIN_WRITE_API).permitAll()
+                    .requestMatchers(HttpMethod.GET, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
+                    .requestMatchers(HttpMethod.PUT, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
+                    .requestMatchers(HttpMethod.DELETE, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
+
                     .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
+
+        http.exceptionHandling( exception -> exception
+                .authenticationEntryPoint(authenticationEntryPoint)
+        );
+
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
