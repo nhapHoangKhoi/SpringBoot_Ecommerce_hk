@@ -9,4 +9,9 @@ public class SecurityApiConstants {
             "/api/v*/users/signup",
             "/api/v*/users/logout",
     };
+
+    public static final String[] ADMIN_WRITE_API = {
+            "/api/v*/categories/**",
+            "/api/v*/products/**"
+    };
 }
