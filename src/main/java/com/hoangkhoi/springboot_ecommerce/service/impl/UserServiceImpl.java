@@ -3,6 +3,7 @@ package com.hoangkhoi.springboot_ecommerce.service.impl;
 import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
 import com.hoangkhoi.springboot_ecommerce.enums.RoleName;
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
@@ -25,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,6 +107,21 @@ public class UserServiceImpl implements UserService {
 
         // Add the cookie to the response
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
+
+    @Override
+    public UserRespDTO getCurrentUser(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+
+        User user = userRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, email))
+                );
+
+        System.out.println(">>> user.getCreatedAt()" + user.getCreatedAt());
+
+        UserRespDTO userResponse = userMapper.toDto(user);
+        return userResponse;
     }
 
     //----- Helper methods -----//

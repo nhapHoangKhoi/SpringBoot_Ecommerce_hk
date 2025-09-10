@@ -4,6 +4,7 @@ import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
@@ -13,10 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -62,6 +62,19 @@ public class UserController {
                 true,
                 String.format(SuccessMessages.LOGOUT_SUCCESS_MESSAGE),
                 null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get user profile")
+    public ResponseEntity<ApiResponse<UserRespDTO>> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        UserRespDTO user = userService.getCurrentUser(userDetails);
+
+        ApiResponse<UserRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_CURRENT_USER_SUCCESS),
+                user
         );
         return ResponseEntity.ok(response);
     }
