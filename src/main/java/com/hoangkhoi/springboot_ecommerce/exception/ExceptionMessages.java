@@ -7,4 +7,6 @@ public class ExceptionMessages {
 
     public static final String IMAGE_UPLOAD_FAILED = "Failed to upload image!";
     public static final String IMAGE_DELETE_FAILED = "Failed to delete image!";
+
+    public static final String UNAUTHORIZED_ACCESS = "Unauthorized access to {} from IP {}: {}";
 }
