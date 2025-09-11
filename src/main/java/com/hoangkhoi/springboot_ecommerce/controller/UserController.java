@@ -14,10 +14,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -91,6 +97,19 @@ public class UserController {
                 true,
                 String.format(SuccessMessages.CREATE_SUCCESS, "user", userResponse.getId()),
                 userResponse
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all users")
+    public ResponseEntity<ApiResponse<List<UserRespDTO>>> getAllUsers() {
+        List<UserRespDTO> users = userService.getAllUsers();
+
+        ApiResponse<List<UserRespDTO>> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_ALL_SUCCESS, "users"),
+                users
         );
         return ResponseEntity.ok(response);
     }

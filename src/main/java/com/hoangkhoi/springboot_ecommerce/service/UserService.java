@@ -9,10 +9,13 @@ import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+
 public interface UserService {
     UserSignUpRespDTO signUp(UserSignUpReqDTO request);
     JwtAuthenRespDTO login(JwtAuthenReqDTO request, HttpServletResponse response);
     void logout(HttpServletResponse httpServletResponse);
     UserRespDTO getCurrentUser(UserDetails userDetails);
     UserRespDTO createUser(UserReqDTO request);
+    List<UserRespDTO> getAllUsers();
 }

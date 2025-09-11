@@ -21,6 +21,8 @@ import com.hoangkhoi.springboot_ecommerce.security.JwtTokenProvider;
 import com.hoangkhoi.springboot_ecommerce.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -150,6 +152,17 @@ public class UserServiceImpl implements UserService {
 
         UserRespDTO userResponse = userMapper.toDto(userRepository.save(user));
         return userResponse;
+    }
+
+    @Override
+    public List<UserRespDTO> getAllUsers() {
+        List<UserRespDTO> users = userRepository
+                .findAll()
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+
+        return users;
     }
 
     //----- Helper methods -----//
