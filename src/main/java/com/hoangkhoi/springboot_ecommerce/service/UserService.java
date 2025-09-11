@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
     UserSignUpRespDTO signUp(UserSignUpReqDTO request);
@@ -18,4 +19,5 @@ public interface UserService {
     UserRespDTO getCurrentUser(UserDetails userDetails);
     UserRespDTO createUser(UserReqDTO request);
     List<UserRespDTO> getAllUsers();
+    UserRespDTO getUserById(UUID id);
 }

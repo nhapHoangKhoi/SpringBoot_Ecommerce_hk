@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,6 +164,17 @@ public class UserServiceImpl implements UserService {
                 .toList();
 
         return users;
+    }
+
+    @Override
+    public UserRespDTO getUserById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Id " + ExceptionMessages.NOT_FOUND, id))
+                );
+
+        UserRespDTO userResponse = userMapper.toDto(user);
+        return userResponse;
     }
 
     //----- Helper methods -----//

@@ -7,6 +7,11 @@ import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
+import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
+import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
+import com.hoangkhoi.springboot_ecommerce.mapper.UserMapper;
+import com.hoangkhoi.springboot_ecommerce.model.User;
+import com.hoangkhoi.springboot_ecommerce.repository.UserRepository;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.UserService;
@@ -14,22 +19,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @PostMapping("/signup")
     @Operation(summary = "Sign up for user")
@@ -110,6 +114,19 @@ public class UserController {
                 true,
                 String.format(SuccessMessages.GET_ALL_SUCCESS, "users"),
                 users
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get user by ID")
+    public ResponseEntity<ApiResponse<UserRespDTO>> getUserById(@PathVariable UUID id) {
+        UserRespDTO userResponse = userService.getUserById(id);
+
+        ApiResponse<UserRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_BY_ID_SUCCESS, id),
+                userResponse
         );
         return ResponseEntity.ok(response);
     }
