@@ -148,7 +148,7 @@ public class ProductController {
 
         ApiResponse<ProductRespDTO> response = new ApiResponse<>(
                 true,
-                String.format(SuccessMessages.UPDATE_SUCCESS, "product", productResponse.getName()),
+                String.format(SuccessMessages.UPDATE_SUCCESS, "product", id),
                 productResponse
         );
 

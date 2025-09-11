@@ -20,4 +20,5 @@ public interface UserService {
     UserRespDTO createUser(UserReqDTO request);
     List<UserRespDTO> getAllUsers();
     UserRespDTO getUserById(UUID id);
+    UserRespDTO updateUser(UUID id, UserReqDTO request);
 }

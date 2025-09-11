@@ -21,8 +21,8 @@ import com.hoangkhoi.springboot_ecommerce.security.JwtTokenProvider;
 import com.hoangkhoi.springboot_ecommerce.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,6 +50,8 @@ public class UserServiceImpl implements UserService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final CacheManager cacheManager;
 
     @Override
     public UserSignUpRespDTO signUp(UserSignUpReqDTO request) {
@@ -177,6 +179,43 @@ public class UserServiceImpl implements UserService {
         return userResponse;
     }
 
+    @Override
+    public UserRespDTO updateUser(UUID id, UserReqDTO request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, id))
+                );
+        if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new BadRequestException(
+                    String.format(ExceptionMessages.ALREADY_EXISTS, request.getEmail())
+            );
+        }
+
+        // check if role exist and get corresponding roles
+        Set<Role> roles = request.getRoleIds()
+                .stream()
+                .map(roleId -> roleRepository.findById(roleId)
+                        .orElseThrow(() -> new NotFoundException(
+                                String.format("Role id " + ExceptionMessages.NOT_FOUND, roleId)))
+                )
+                .collect(Collectors.toSet());
+
+        // evict cache entry manually
+        removeUserFromCache(user.getEmail());
+
+        userMapper.updateUserFromDto(request, user);
+
+        // update encoded password
+        if(request.getPassword() != null) {
+            user.setPassword(encoder.encode(request.getPassword()));
+        }
+
+        // update role
+        user.setRoles(roles);
+
+        return userMapper.toDto(userRepository.save(user));
+    }
+
     //----- Helper methods -----//
     private ResponseCookie createCookie(String token, long maxAge) {
         return ResponseCookie.from("spring_token", token)
@@ -186,6 +225,13 @@ public class UserServiceImpl implements UserService {
                 .maxAge(maxAge)
                 .sameSite("Strict")
                 .build();
+    }
+
+    private void removeUserFromCache(String email) {
+        Cache usersCache = cacheManager.getCache("users");
+        if(usersCache != null) {
+            usersCache.evict(email);
+        }
     }
     //----- End helper methods -----//
 }

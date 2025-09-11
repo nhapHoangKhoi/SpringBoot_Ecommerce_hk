@@ -130,4 +130,19 @@ public class UserController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update user")
+    public ResponseEntity<ApiResponse<UserRespDTO>> updateUser(
+            @PathVariable UUID id,
+            @RequestBody UserReqDTO request
+    ) {
+        UserRespDTO updatedUser = userService.updateUser(id, request);
+        ApiResponse<UserRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.UPDATE_SUCCESS, "user", id),
+                updatedUser
+        );
+        return ResponseEntity.ok(response);
+    }
 }
