@@ -14,6 +14,11 @@ public class SecurityApiConstants {
             "/api/v*/users/me"
     };
 
+    public static final String[] ADMIN_API = {
+            "/api/v*/roles/**",
+            "/api/v*/users/**",
+    };
+
     public static final String[] ADMIN_WRITE_API = {
             "/api/v*/categories/**",
             "/api/v*/products/**"

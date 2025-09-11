@@ -66,6 +66,10 @@ public class SecurityConfig {
                             RoleName.ROLE_USER.name()
                     )
 
+                    .requestMatchers(SecurityApiConstants.ADMIN_API).hasAuthority(
+                            RoleName.ROLE_ADMIN.name()
+                    )
+
                     .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
