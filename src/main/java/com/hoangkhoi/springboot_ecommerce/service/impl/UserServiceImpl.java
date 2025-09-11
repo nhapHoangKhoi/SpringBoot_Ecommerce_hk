@@ -216,6 +216,20 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(userRepository.save(user));
     }
 
+    @Override
+    public void deleteUserSoft(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, id))
+                );
+
+        // evict cache entry manually
+        removeUserFromCache(user.getEmail());
+
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+
     //----- Helper methods -----//
     private ResponseCookie createCookie(String token, long maxAge) {
         return ResponseCookie.from("spring_token", token)

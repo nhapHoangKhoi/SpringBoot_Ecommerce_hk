@@ -145,4 +145,17 @@ public class UserController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete user soft")
+    public ResponseEntity<ApiResponse<Void>> deleteUserSoft(@PathVariable UUID id) {
+        userService.deleteUserSoft(id);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "soft user", id),
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
 }

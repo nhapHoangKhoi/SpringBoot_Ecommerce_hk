@@ -21,4 +21,5 @@ public interface UserService {
     List<UserRespDTO> getAllUsers();
     UserRespDTO getUserById(UUID id);
     UserRespDTO updateUser(UUID id, UserReqDTO request);
+    void deleteUserSoft(UUID id);
 }
