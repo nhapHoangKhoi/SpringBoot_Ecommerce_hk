@@ -1,5 +1,6 @@
 package com.hoangkhoi.springboot_ecommerce.mapper;
 
+import com.hoangkhoi.springboot_ecommerce.dto.request.UserReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserSignUpRespDTO;
@@ -12,4 +13,5 @@ public interface UserMapper {
     UserSignUpRespDTO toDtoForSignUp(User entity);
 
     UserRespDTO toDto(User entity);
+    User toEntity(UserReqDTO dto);
 }

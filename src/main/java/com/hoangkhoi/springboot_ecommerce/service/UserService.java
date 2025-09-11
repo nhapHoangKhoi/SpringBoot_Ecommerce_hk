@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.service;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.request.UserReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
@@ -13,4 +14,5 @@ public interface UserService {
     JwtAuthenRespDTO login(JwtAuthenReqDTO request, HttpServletResponse response);
     void logout(HttpServletResponse httpServletResponse);
     UserRespDTO getCurrentUser(UserDetails userDetails);
+    UserRespDTO createUser(UserReqDTO request);
 }

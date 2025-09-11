@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.request.UserReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
@@ -75,6 +76,21 @@ public class UserController {
                 true,
                 String.format(SuccessMessages.GET_CURRENT_USER_SUCCESS),
                 user
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new user")
+    public ResponseEntity<ApiResponse<UserRespDTO>> createUser(
+            @RequestBody @Valid UserReqDTO request
+    ) {
+        UserRespDTO userResponse = userService.createUser(request);
+
+        ApiResponse<UserRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.CREATE_SUCCESS, "user", userResponse.getId()),
+                userResponse
         );
         return ResponseEntity.ok(response);
     }

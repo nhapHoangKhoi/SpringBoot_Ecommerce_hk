@@ -1,6 +1,7 @@
 package com.hoangkhoi.springboot_ecommerce.service.impl;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.JwtAuthenReqDTO;
+import com.hoangkhoi.springboot_ecommerce.dto.request.UserReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.request.UserSignUpReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.JwtAuthenRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.UserRespDTO;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -121,6 +123,32 @@ public class UserServiceImpl implements UserService {
         System.out.println(">>> user.getCreatedAt()" + user.getCreatedAt());
 
         UserRespDTO userResponse = userMapper.toDto(user);
+        return userResponse;
+    }
+
+    @Override
+    public UserRespDTO createUser(UserReqDTO request) {
+        if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new BadRequestException(
+                    String.format(ExceptionMessages.ALREADY_EXISTS, request.getEmail())
+            );
+        }
+
+        User user = userMapper.toEntity(request);
+        user.setPassword(encoder.encode(request.getPassword()));
+        // set role for the user
+        Set<Role> roles = request.getRoleIds()
+                .stream()
+                .map(roleId -> roleRepository.findById(roleId)
+                        .orElseThrow(() -> new NotFoundException(
+                                String.format(ExceptionMessages.NOT_FOUND, roleId)
+                        ))
+                )
+                .collect(Collectors.toSet());
+
+        user.setRoles(roles);
+
+        UserRespDTO userResponse = userMapper.toDto(userRepository.save(user));
         return userResponse;
     }
 
