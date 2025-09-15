@@ -84,6 +84,16 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
     }
 
+    @Override
+    public void deleteCart(UUID cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, "Cart"))
+                );
+
+        cartRepository.delete(cart);
+    }
+
     //----- Helper methods -----//
     private Product getActiveProduct(UUID productId) {
         Product product = productRepository.findById(productId)

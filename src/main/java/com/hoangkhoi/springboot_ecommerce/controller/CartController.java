@@ -57,4 +57,17 @@ public class CartController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete cart")
+    public ResponseEntity<ApiResponse<Void>> deleteCart(@PathVariable UUID id) {
+        cartService.deleteCart(id);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "cart", ""),
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
 }
