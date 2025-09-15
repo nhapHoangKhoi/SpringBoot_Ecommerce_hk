@@ -90,6 +90,24 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
+    @Transactional
+    @Override
+    public OrderRespDTO updateStatusById(UUID orderId, OrderStatus status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, "Order")
+                ));
+
+        // restore stock when order is cancelled
+        if(status == OrderStatus.CANCELLED && order.getOrderStatus() != OrderStatus.CANCELLED) {
+            restoreProductStock(order);
+        }
+
+        order.setOrderStatus(status);
+
+        return orderMapper.toDto(orderRepository.save(order));
+    }
+
     //----- Helper methods -----//
     private void validateProductAvailability(Product product, int requestedQty) {
         if(product.getStatus() != ProductStatus.ACTIVE) {
@@ -149,6 +167,17 @@ public class OrderServiceImpl implements OrderService {
     private void clearCart(Cart cart, List<UUID> productIds) {
         cart.getCartItems().removeIf(item -> productIds.contains(item.getProduct().getId()));
         cartRepository.save(cart);
+    }
+
+    private void restoreProductStock(Order order) {
+        order.getOrderItems().forEach(orderItem -> {
+            Product product = orderItem.getProduct();
+            product.setStock(product.getStock() + orderItem.getQuantity());
+
+            if(product.getStatus() == ProductStatus.OUT_OF_STOCK && product.getStock() > 0) {
+                product.setStatus(ProductStatus.ACTIVE);
+            }
+        });
     }
     //----- End helper methods -----//
 }
