@@ -40,6 +40,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Cart cart;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
