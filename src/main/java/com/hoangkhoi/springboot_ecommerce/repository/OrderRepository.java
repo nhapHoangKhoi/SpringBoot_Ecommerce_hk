@@ -1,5 +1,6 @@
 package com.hoangkhoi.springboot_ecommerce.repository;
 
+import com.hoangkhoi.springboot_ecommerce.enums.OrderStatus;
 import com.hoangkhoi.springboot_ecommerce.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> findByUserId(UUID userId);
+    boolean existsByUserIdAndOrderItemsProductIdAndOrderStatus(UUID userId, UUID productId, OrderStatus status);
 }

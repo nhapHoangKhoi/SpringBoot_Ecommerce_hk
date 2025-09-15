@@ -15,7 +15,7 @@ public class OrderRespDTO {
     private UUID id;
     private UUID userId;
     private BigDecimal total;
-    private OrderStatus status;
+    private OrderStatus orderStatus;
     private LocalDateTime createdOn;
     private List<OrderItemRespDTO> orderItems;
 }

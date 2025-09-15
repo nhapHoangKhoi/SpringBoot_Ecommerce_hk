@@ -13,4 +13,6 @@ public class ExceptionMessages {
     public static final String PRODUCT_STATUS_IS = "%s status is %s";
     public static final String INSUFFICIENT_STOCK = "There are %d %s available!";
     public static final String IS_EMPTY = "%s is empty";
+
+    public static final String PRODUCT_NOT_PURCHASED = "You must purchase %s to perform this action!";
 }

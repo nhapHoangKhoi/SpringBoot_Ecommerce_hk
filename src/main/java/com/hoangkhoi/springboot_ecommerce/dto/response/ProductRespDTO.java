@@ -19,6 +19,8 @@ public class ProductRespDTO {
     private BigDecimal price;
     private ProductStatus status;
     private int stock;
+    private double avgRating;
+    private int ratingCount;
     private boolean isFeatured;
     private boolean isDeleted;
     private List<ProductImageRespDTO> productImages;

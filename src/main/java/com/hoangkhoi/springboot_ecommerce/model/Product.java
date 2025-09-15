@@ -42,6 +42,12 @@ public class Product {
     @Column(name = "stock", nullable = false)
     private int stock = 0;
 
+    @Column(name = "avg_rating")
+    private double avgRating = 0.0;
+
+    @Column(name = "rating_count")
+    private int ratingCount = 0;
+
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
@@ -53,6 +59,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Rating> ratings;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

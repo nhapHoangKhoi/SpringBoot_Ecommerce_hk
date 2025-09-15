@@ -10,7 +10,8 @@ import org.mapstruct.MappingTarget;
         componentModel = "spring",
         uses = { // used for preventing duplicated in "target" folder
                 CategoryMapper.class,
-                ProductImageMapper.class
+                ProductImageMapper.class,
+                RatingMapper.class,
         }
 )
 public interface ProductMapper {
