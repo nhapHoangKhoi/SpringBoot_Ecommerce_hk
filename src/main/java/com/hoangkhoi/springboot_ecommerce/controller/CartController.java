@@ -1,16 +1,15 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
+import com.hoangkhoi.springboot_ecommerce.dto.request.CartItemReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CartRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -28,6 +27,19 @@ public class CartController {
         ApiResponse<CartRespDTO> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.GET_BY_ID_SUCCESS, userId),
+                cart
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    @Operation(summary = "Add a product to cart")
+    public ResponseEntity<ApiResponse<CartRespDTO>> addItemToCart(@RequestBody @Valid CartItemReqDTO request) {
+        CartRespDTO cart = cartService.addItemToCart(request);
+
+        ApiResponse<CartRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.UPDATE_SUCCESS, "cart", ""),
                 cart
         );
         return ResponseEntity.ok(response);

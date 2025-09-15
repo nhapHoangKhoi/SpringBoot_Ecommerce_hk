@@ -9,4 +9,7 @@ public class ExceptionMessages {
     public static final String IMAGE_DELETE_FAILED = "Failed to delete image!";
 
     public static final String UNAUTHORIZED_ACCESS = "Unauthorized access to {} from IP {}: {}";
+
+    public static final String PRODUCT_STATUS_IS = "%s status is %s";
+    public static final String INSUFFICIENT_STOCK = "There are %d %s available!";
 }

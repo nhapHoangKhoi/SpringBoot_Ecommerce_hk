@@ -29,6 +29,9 @@ public class ProductReqDTO {
     @NotNull(message = "Product status cannot be blank!")
     private ProductStatus status;
 
+    @Min(value = 0, message = "Stock must be >= 0!")
+    private int stock;
+
     private boolean isFeatured;
     private boolean isDeleted;
 }

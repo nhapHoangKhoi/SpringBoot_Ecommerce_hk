@@ -18,6 +18,7 @@ public class ProductRespDTO {
     private String description;
     private BigDecimal price;
     private ProductStatus status;
+    private int stock;
     private boolean isFeatured;
     private boolean isDeleted;
     private List<ProductImageRespDTO> productImages;

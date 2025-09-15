@@ -39,6 +39,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductStatus status = ProductStatus.ACTIVE;
 
+    @Column(name = "stock", nullable = false)
+    private int stock = 0;
+
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
