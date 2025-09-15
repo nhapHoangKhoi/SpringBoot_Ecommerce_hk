@@ -70,6 +70,16 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(order);
     }
 
+    @Override
+    public OrderRespDTO getOrderById(UUID orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, "Order")
+                ));
+
+        return orderMapper.toDto(order);
+    }
+
     //----- Helper methods -----//
     private void validateProductAvailability(Product product, int requestedQty) {
         if(product.getStatus() != ProductStatus.ACTIVE) {

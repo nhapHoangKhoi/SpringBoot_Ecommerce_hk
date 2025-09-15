@@ -11,10 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -30,6 +29,19 @@ public class OrderController {
         ApiResponse<OrderRespDTO> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.CREATE_SUCCESS, "order", ""),
+                order
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get order by ID")
+    public ResponseEntity<ApiResponse<OrderRespDTO>> getOrderById(@PathVariable UUID id) {
+        OrderRespDTO order = orderService.getOrderById(id);
+
+        ApiResponse<OrderRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_BY_ID_SUCCESS, id),
                 order
         );
         return ResponseEntity.ok(response);
