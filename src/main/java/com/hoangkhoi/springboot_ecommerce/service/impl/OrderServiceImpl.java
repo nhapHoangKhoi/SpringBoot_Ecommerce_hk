@@ -80,6 +80,16 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(order);
     }
 
+    @Override
+    public List<OrderRespDTO> getOrdersByUser(UUID userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+
+        return orders
+                .stream()
+                .map(orderMapper::toDto)
+                .toList();
+    }
+
     //----- Helper methods -----//
     private void validateProductAvailability(Product product, int requestedQty) {
         if(product.getStatus() != ProductStatus.ACTIVE) {

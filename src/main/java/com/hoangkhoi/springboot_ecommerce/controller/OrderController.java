@@ -1,18 +1,17 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.OrderReqDTO;
-import com.hoangkhoi.springboot_ecommerce.dto.response.CartRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.OrderRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -43,6 +42,19 @@ public class OrderController {
                 true,
                 String.format(SuccessMessages.GET_BY_ID_SUCCESS, id),
                 order
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all orders for a user")
+    public ResponseEntity<ApiResponse<List<OrderRespDTO>>> getOrdersByUser(@RequestParam UUID userId) {
+        List<OrderRespDTO> listOrders = orderService.getOrdersByUser(userId);
+
+        ApiResponse<List<OrderRespDTO>> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_ALL_SUCCESS, "user orders"),
+                listOrders
         );
         return ResponseEntity.ok(response);
     }
