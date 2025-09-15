@@ -61,6 +61,12 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.PUT, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
                     .requestMatchers(HttpMethod.DELETE, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
 
+                    .requestMatchers(HttpMethod.GET, SecurityApiConstants.RATING_API).permitAll()
+                    .requestMatchers(HttpMethod.POST, SecurityApiConstants.RATING_API).hasAnyAuthority(
+                            RoleName.ROLE_ADMIN.name(),
+                            RoleName.ROLE_USER.name()
+                    )
+
                     .requestMatchers(SecurityApiConstants.USER_API).hasAnyAuthority(
                             RoleName.ROLE_ADMIN.name(),
                             RoleName.ROLE_USER.name()
