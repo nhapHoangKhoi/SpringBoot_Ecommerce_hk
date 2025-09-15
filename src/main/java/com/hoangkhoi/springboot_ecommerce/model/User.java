@@ -37,6 +37,9 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserInfo> userInfos;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

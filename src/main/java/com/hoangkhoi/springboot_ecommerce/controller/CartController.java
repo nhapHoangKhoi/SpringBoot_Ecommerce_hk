@@ -1,0 +1,35 @@
+package com.hoangkhoi.springboot_ecommerce.controller;
+
+import com.hoangkhoi.springboot_ecommerce.dto.response.CartRespDTO;
+import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
+import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
+import com.hoangkhoi.springboot_ecommerce.service.CartService;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/cart")
+@AllArgsConstructor
+public class CartController {
+    private final CartService cartService;
+
+    @GetMapping
+    @Operation(summary = "Get cart by user ID")
+    public ResponseEntity<ApiResponse<CartRespDTO>> getCart(@RequestParam UUID userId) {
+        CartRespDTO cart = cartService.getCart(userId);
+
+        ApiResponse<CartRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.GET_BY_ID_SUCCESS, userId),
+                cart
+        );
+        return ResponseEntity.ok(response);
+    }
+}
