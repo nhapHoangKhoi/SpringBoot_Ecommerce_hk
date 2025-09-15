@@ -45,6 +45,9 @@ public class Product {
     @Column(name = "is_featured", nullable = false)
     private boolean isFeatured = false;
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
