@@ -11,7 +11,8 @@ public class SecurityApiConstants {
     };
 
     public static final String[] USER_API = {
-            "/api/v*/users/me"
+            "/api/v*/users/me",
+            "/api/v*/cart/**",
     };
 
     public static final String[] ADMIN_API = {
