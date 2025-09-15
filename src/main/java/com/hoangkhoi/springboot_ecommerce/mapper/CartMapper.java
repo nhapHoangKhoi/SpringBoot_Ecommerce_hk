@@ -22,5 +22,5 @@ public interface CartMapper {
     @Mapping(target = "userId", source = "user.id")
     CartRespDTO toDto(Cart entity);
 
-    List<CartItemRespDTO> toListCartItemRespDTOs(List<CartItem> listEntityCartItems);
+    List<CartItemRespDTO> toListCartItemDTOs(List<CartItem> listEntityCartItems);
 }
