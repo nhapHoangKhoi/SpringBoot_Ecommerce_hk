@@ -70,4 +70,17 @@ public class CartController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping
+    @Operation(summary = "Update quantity of a product in cart")
+    public ResponseEntity<ApiResponse<CartRespDTO>> updateQuantity(@RequestBody @Valid CartItemReqDTO request) {
+        CartRespDTO updatedCart = cartService.updateQuantity(request);
+
+        ApiResponse<CartRespDTO> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.UPDATE_SUCCESS, "cart", ""),
+                updatedCart
+        );
+        return ResponseEntity.ok(response);
+    }
 }

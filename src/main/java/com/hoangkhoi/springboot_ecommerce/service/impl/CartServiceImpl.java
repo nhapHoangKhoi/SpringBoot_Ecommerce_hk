@@ -94,6 +94,45 @@ public class CartServiceImpl implements CartService {
         cartRepository.delete(cart);
     }
 
+    @Override
+    public CartRespDTO updateQuantity(CartItemReqDTO request) {
+        if(request.getQuantity() <= 0) {
+            removeItemFromCart(request);
+            return getCart(request.getUserId());
+        }
+
+        Cart cart = getCartByUserId(request.getUserId());
+        CartItem cartItem = findCartItem(cart, request.getProductId());
+
+        if(cartItem == null) {
+            throw new NotFoundException(String.format(ExceptionMessages.NOT_FOUND, "Cart_item"));
+        }
+
+        if(cartItem.getProduct().getStatus() != ProductStatus.ACTIVE) {
+            throw new BadRequestException(
+                    String.format(
+                            ExceptionMessages.PRODUCT_STATUS_IS,
+                            cartItem.getProduct().getName(),
+                            cartItem.getProduct().getStatus()
+                    )
+            );
+        }
+
+        if(cartItem.getProduct().getStock() < request.getQuantity()) {
+            throw new BadRequestException(
+                    String.format(
+                            ExceptionMessages.INSUFFICIENT_STOCK,
+                            cartItem.getProduct().getStock(),
+                            cartItem.getProduct().getName()
+                    )
+            );
+        }
+
+        cartItem.setQuantity(request.getQuantity());
+        cartRepository.save(cart);
+        return cartMapper.toDto(cart);
+    }
+
     //----- Helper methods -----//
     private Product getActiveProduct(UUID productId) {
         Product product = productRepository.findById(productId)
