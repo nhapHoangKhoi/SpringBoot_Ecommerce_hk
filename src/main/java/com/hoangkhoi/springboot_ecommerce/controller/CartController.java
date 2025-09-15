@@ -44,4 +44,17 @@ public class CartController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping
+    @Operation(summary = "Remove a product from cart")
+    public ResponseEntity<ApiResponse<Void>> removeItemFromCart(@RequestBody @Valid CartItemReqDTO request) {
+        cartService.removeItemFromCart(request);
+
+        ApiResponse<Void> response = new ApiResponse<>(
+                true,
+                String.format(SuccessMessages.DELETE_SUCCESS, "cart_item", ""),
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
 }

@@ -68,6 +68,22 @@ public class CartServiceImpl implements CartService {
         return cartMapper.toDto(cart);
     }
 
+    @Override
+    public void removeItemFromCart(CartItemReqDTO request) {
+        Cart cart = getCartByUserId(request.getUserId());
+
+        boolean removed = cart.getCartItems()
+                .removeIf(item -> item.getProduct().getId().equals(request.getProductId()));
+
+        if(!removed) {
+            throw new NotFoundException(
+                    String.format(ExceptionMessages.NOT_FOUND, "Product")
+            );
+        }
+
+        cartRepository.save(cart);
+    }
+
     //----- Helper methods -----//
     private Product getActiveProduct(UUID productId) {
         Product product = productRepository.findById(productId)
@@ -108,6 +124,12 @@ public class CartServiceImpl implements CartService {
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private Cart getCartByUserId(UUID userId) {
+        return cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ExceptionMessages.NOT_FOUND, "Cart")));
     }
     //----- End helper methods -----//
 }
