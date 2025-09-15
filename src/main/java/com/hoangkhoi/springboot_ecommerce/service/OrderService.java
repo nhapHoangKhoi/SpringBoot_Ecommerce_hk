@@ -1,0 +1,10 @@
+package com.hoangkhoi.springboot_ecommerce.service;
+
+import com.hoangkhoi.springboot_ecommerce.dto.response.OrderRespDTO;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface OrderService {
+    OrderRespDTO placeOrder(UUID userId, List<UUID> productIds);
+}

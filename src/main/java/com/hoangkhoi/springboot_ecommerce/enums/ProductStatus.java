@@ -2,5 +2,6 @@ package com.hoangkhoi.springboot_ecommerce.enums;
 
 public enum ProductStatus {
     ACTIVE,
-    INACTIVE
+    INACTIVE,
+    OUT_OF_STOCK
 }
