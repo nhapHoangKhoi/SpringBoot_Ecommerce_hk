@@ -8,6 +8,7 @@ import com.hoangkhoi.springboot_ecommerce.service.impl.CategoryServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +21,31 @@ import java.util.UUID;
 public class CategoryController {
     private final CategoryServiceImpl categoryService;
 
+    // @GetMapping
+    // @Operation(summary = "Get list categories")
+    // public ResponseEntity<ApiResponse<List<CategoryRespDTO>>> getAllCategories(
+    //         @RequestParam(defaultValue = "") String search
+    // ) {
+    //     List<CategoryRespDTO> categories = categoryService.getCategoryByName(search);
+    //
+    //     ApiResponse<List<CategoryRespDTO>> response = new ApiResponse<>(
+    //             true,
+    //             String.format(SuccessMessages.GET_ALL_SUCCESS, "categories"),
+    //             categories
+    //     );
+    //
+    //     return ResponseEntity.ok(response);
+    // }
     @GetMapping
     @Operation(summary = "Get list categories")
-    public ResponseEntity<ApiResponse<List<CategoryRespDTO>>> getAllCategories(
-            @RequestParam(defaultValue = "") String search
+    public ResponseEntity<ApiResponse<Page<CategoryRespDTO>>> getAllCategories(
+            @RequestParam(defaultValue = "") String search,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit
     ) {
-        List<CategoryRespDTO> categories = categoryService.getCategoryByName(search);
+        Page<CategoryRespDTO> categories = categoryService.getCategoryByName(search, page, limit);
 
-        ApiResponse<List<CategoryRespDTO>> response = new ApiResponse<>(
+        ApiResponse<Page<CategoryRespDTO>> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.GET_ALL_SUCCESS, "categories"),
                 categories

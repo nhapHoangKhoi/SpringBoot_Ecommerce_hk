@@ -10,6 +10,10 @@ import com.hoangkhoi.springboot_ecommerce.model.Category;
 import com.hoangkhoi.springboot_ecommerce.repository.CategoryRepository;
 import com.hoangkhoi.springboot_ecommerce.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,13 +36,39 @@ public class CategoryServiceImpl implements CategoryService {
         return categories;
     }
 
+    // @Override
+    // public List<CategoryRespDTO> getCategoryByName(String name) {
+    //     List<CategoryRespDTO> categories = categoryRepository
+    //             .findByNameContainingIgnoreCase(name)
+    //             .stream()
+    //             .map(categoryMapper::toDto)
+    //             .toList();
+    //
+    //     return categories;
+    // }
     @Override
-    public List<CategoryRespDTO> getCategoryByName(String name) {
-        List<CategoryRespDTO> categories = categoryRepository
-                .findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(categoryMapper::toDto)
-                .toList();
+    public Page<CategoryRespDTO> getCategoryByName(String name, int page, int limit) {
+        // ----- Pagination ----- //
+        if(page <= 0) {
+            page = 1;
+        }
+
+        long totalRecords = categoryRepository.count();
+        int totalPages = (int) Math.ceil((double) totalRecords / limit);
+        if(page > totalPages && totalPages > 0) {
+            page = totalPages;
+        }
+
+        Pageable pageable = PageRequest.of(
+                page - 1, // spring data uses 0-based page index, so subtract 1
+                limit,
+                Sort.by("createdAt").descending()
+        );
+        // ----- End pagination ----- //
+
+        Page<CategoryRespDTO> categories = categoryRepository
+                .findByNameContainingIgnoreCase(name, pageable)
+                .map(categoryMapper::toDto);
 
         return categories;
     }
