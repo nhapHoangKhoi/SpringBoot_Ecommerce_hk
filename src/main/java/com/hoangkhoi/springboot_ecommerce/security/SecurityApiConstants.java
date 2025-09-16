@@ -8,9 +8,6 @@ public class SecurityApiConstants {
             "/api/v*/users/login",
             "/api/v*/users/signup",
             "/api/v*/users/logout",
-
-            "/api/v*/products/**",
-            "/api/v*/categories/**",
     };
 
     public static final String[] USER_API = {
@@ -27,7 +24,7 @@ public class SecurityApiConstants {
     };
 
     public static final String[] ADMIN_WRITE_API = {
-            // "/api/v*/categories/**",
-            // "/api/v*/products/**"
+            "/api/v*/categories/**",
+            "/api/v*/products/**"
     };
 }

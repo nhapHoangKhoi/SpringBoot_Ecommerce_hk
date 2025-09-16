@@ -10,6 +10,7 @@ import com.hoangkhoi.springboot_ecommerce.service.impl.ProductServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,12 +25,28 @@ public class ProductController {
     private final ProductServiceImpl productService;
     private final ProductImageService productImageService;
 
+    // @GetMapping
+    // @Operation(summary = "Get list products")
+    // public ResponseEntity<ApiResponse<List<ProductRespDTO>>> getAllProducts() {
+    //     List<ProductRespDTO> products = productService.getAllProducts();
+    //
+    //     ApiResponse<List<ProductRespDTO>> response = new ApiResponse<>(
+    //             true,
+    //             String.format(SuccessMessages.GET_ALL_SUCCESS, "products"),
+    //             products
+    //     );
+    //
+    //     return ResponseEntity.ok(response);
+    // }
     @GetMapping
     @Operation(summary = "Get list products")
-    public ResponseEntity<ApiResponse<List<ProductRespDTO>>> getAllProducts() {
-        List<ProductRespDTO> products = productService.getAllProducts();
+    public ResponseEntity<ApiResponse<Page<ProductRespDTO>>> getAllProducts(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit
+    ) {
+        Page<ProductRespDTO> products = productService.getAllProducts(page, limit);
 
-        ApiResponse<List<ProductRespDTO>> response = new ApiResponse<>(
+        ApiResponse<Page<ProductRespDTO>> response = new ApiResponse<>(
                 true,
                 String.format(SuccessMessages.GET_ALL_SUCCESS, "products"),
                 products

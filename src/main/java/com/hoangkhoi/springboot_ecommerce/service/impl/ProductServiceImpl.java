@@ -11,6 +11,10 @@ import com.hoangkhoi.springboot_ecommerce.repository.CategoryRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.ProductRepository;
 import com.hoangkhoi.springboot_ecommerce.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +27,39 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
+    // @Override
+    // public List<ProductRespDTO> getAllProducts() {
+    //     List<ProductRespDTO> products = productRepository
+    //             .findAll()
+    //             .stream()
+    //             .map(productMapper::toDto)
+    //             .toList();
+    //
+    //     return products;
+    // }
     @Override
-    public List<ProductRespDTO> getAllProducts() {
-        List<ProductRespDTO> products = productRepository
-                .findAll()
-                .stream()
-                .map(productMapper::toDto)
-                .toList();
+    public Page<ProductRespDTO> getAllProducts(int page, int limit) {
+        // ----- Pagination ----- //
+        if(page <= 0) {
+            page = 1;
+        }
+
+        long totalRecords = productRepository.count();
+        int totalPages = (int) Math.ceil((double) totalRecords / limit);
+        if(page > totalPages && totalPages > 0) {
+            page = totalPages;
+        }
+
+        Pageable pageable = PageRequest.of(
+                page - 1, // spring data uses 0-based page index, so subtract 1
+                limit,
+                Sort.by("createdAt").descending()
+        );
+        // ----- End pagination ----- //
+
+        Page<ProductRespDTO> products = productRepository
+                .findAll(pageable)
+                .map(productMapper::toDto);
 
         return products;
     }
