@@ -133,8 +133,6 @@ public class UserServiceImpl implements UserService {
                         String.format(ExceptionMessages.NOT_FOUND, email))
                 );
 
-        System.out.println(">>> user.getCreatedAt()" + user.getCreatedAt());
-
         UserRespDTO userResponse = userMapper.toDto(user);
         return userResponse;
     }
