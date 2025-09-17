@@ -39,11 +39,11 @@ public class CategoryController {
     @GetMapping
     @Operation(summary = "Get list categories")
     public ResponseEntity<ApiResponse<Page<CategoryRespDTO>>> getAllCategories(
-            @RequestParam(defaultValue = "") String search,
+            @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit
     ) {
-        Page<CategoryRespDTO> categories = categoryService.getCategoryByName(search, page, limit);
+        Page<CategoryRespDTO> categories = categoryService.getCategoryByName(keyword, page, limit);
 
         ApiResponse<Page<CategoryRespDTO>> response = new ApiResponse<>(
                 true,
