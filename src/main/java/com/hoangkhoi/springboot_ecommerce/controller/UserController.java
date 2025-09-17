@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new user")
+    @Operation(summary = "Admin create a new user")
     public ResponseEntity<ApiResponse<UserRespDTO>> createUser(
             @RequestBody @Valid UserReqDTO request
     ) {
