@@ -8,3 +8,7 @@
 - **ORM:** Spring Data JPA
 - **Testing:** JUnit, Mockito
 - **Other:** Lombok, Spring Security, Validation
+
+
+## Database Diagram
+![Database_diagram](assets/DB_diagram.jpg)
