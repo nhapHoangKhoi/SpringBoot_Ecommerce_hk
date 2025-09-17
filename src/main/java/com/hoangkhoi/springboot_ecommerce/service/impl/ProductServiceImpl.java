@@ -65,6 +65,41 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductRespDTO> getProductsByFilters(String productName, UUID categoryId, int page, int limit) {
+        // ----- Pagination ----- //
+        if(page <= 0) {
+            page = 1;
+        }
+
+        long totalRecords = productRepository.count();
+        int totalPages = (int) Math.ceil((double) totalRecords / limit);
+        if(page > totalPages && totalPages > 0) {
+            page = totalPages;
+        }
+
+        Pageable pageable = PageRequest.of(
+                page - 1, // spring data uses 0-based page index, so subtract 1
+                limit,
+                Sort.by("createdAt").descending()
+        );
+        // ----- End pagination ----- //
+
+        Page<Product> products;
+
+        if(categoryId != null) {
+            // filter by category + name
+            products = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, productName, pageable);
+        }
+        else {
+            // only filter by name
+            products = productRepository.findByNameContainingIgnoreCase(productName, pageable);
+        }
+
+        Page<ProductRespDTO> response = products.map(productMapper::toDto);
+        return response;
+    }
+
+    @Override
     public ProductRespDTO getProductById(UUID id) {
         Product product = productRepository
                 .findById(id)
