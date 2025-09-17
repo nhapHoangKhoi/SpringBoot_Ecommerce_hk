@@ -80,17 +80,17 @@ public class RatingServiceImpl implements RatingService {
                 ));
 
         // check if user bought that product
-        if(
-            !orderRepository.existsByUserIdAndOrderItemsProductIdAndOrderStatus(
-                request.getUserId(),
-                request.getProductId(),
-                OrderStatus.CONFIRMED
-            )
-        ) {
-            throw new BadRequestException(
-                    String.format(ExceptionMessages.PRODUCT_NOT_PURCHASED, product.getName())
-            );
-        }
+        // if(
+        //     !orderRepository.existsByUserIdAndOrderItemsProductIdAndOrderStatus(
+        //         request.getUserId(),
+        //         request.getProductId(),
+        //         OrderStatus.CONFIRMED
+        //     )
+        // ) {
+        //     throw new BadRequestException(
+        //             String.format(ExceptionMessages.PRODUCT_NOT_PURCHASED, product.getName())
+        //     );
+        // }
 
         // calculate avg rating
         updateProductRating(product, request.getRatingValue());
