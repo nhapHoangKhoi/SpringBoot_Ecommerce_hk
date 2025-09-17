@@ -100,6 +100,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductRespDTO> getFeaturedProducts() {
+        // ----- Pagination ----- //
+        int page = 1;
+        int limit = 4;
+
+        Pageable pageable = PageRequest.of(
+                page - 1, // spring data uses 0-based page index, so subtract 1
+                limit,
+                Sort.by("updatedAt").descending()
+        );
+        // ----- End pagination ----- //
+
+        Page<ProductRespDTO> featuredProducts = productRepository
+                .findByIsFeaturedTrueAndIsDeletedFalse(pageable)
+                .map(productMapper::toDto);
+
+        return featuredProducts;
+    }
+
+    @Override
     public ProductRespDTO getProductById(UUID id) {
         Product product = productRepository
                 .findById(id)

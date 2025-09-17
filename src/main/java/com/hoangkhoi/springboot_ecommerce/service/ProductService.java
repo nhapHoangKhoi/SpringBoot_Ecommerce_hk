@@ -22,4 +22,5 @@ public interface ProductService {
             int page,
             int limit
     );
+    Page<ProductRespDTO> getFeaturedProducts();
 }

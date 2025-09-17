@@ -59,10 +59,18 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Page<ProductRespDTO>>> getProductsByFilters(
             @RequestParam(defaultValue = "") String productName,
             @RequestParam(required = false) UUID categoryId,
+            @RequestParam(required = false) boolean featured,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit
     ) {
-        Page<ProductRespDTO> products = productService.getProductsByFilters(productName, categoryId, page, limit);
+        Page<ProductRespDTO> products;
+
+        if(featured == true) {
+            products = productService.getFeaturedProducts();
+        }
+        else {
+            products = productService.getProductsByFilters(productName, categoryId, page, limit);
+        }
 
         ApiResponse<Page<ProductRespDTO>> response = new ApiResponse<>(
                 true,
