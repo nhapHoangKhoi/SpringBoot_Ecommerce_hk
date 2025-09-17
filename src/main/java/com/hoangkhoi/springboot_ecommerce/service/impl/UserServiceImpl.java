@@ -13,6 +13,7 @@ import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
 import com.hoangkhoi.springboot_ecommerce.mapper.UserMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Role;
 import com.hoangkhoi.springboot_ecommerce.model.User;
+import com.hoangkhoi.springboot_ecommerce.model.UserInfo;
 import com.hoangkhoi.springboot_ecommerce.repository.RoleRepository;
 import com.hoangkhoi.springboot_ecommerce.mapper.UserInfoMapper;
 import com.hoangkhoi.springboot_ecommerce.repository.UserInfoRepository;
@@ -74,12 +75,19 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(request);
         user.setPassword(encoder.encode(request.getPassword()));
         user.setRoles(Set.of(role));
-        user.setUserInfos(
-                List.of(userInfoRepository.save(userInfoMapper.toEntity(request)))
-        );
 
-        User savedUserModel = userRepository.save(user);
-        UserSignUpRespDTO userSignUpResponse = userMapper.toDtoForSignUp(savedUserModel);
+        // save user first so it has an ID
+        User savedUser = userRepository.save(user);
+
+        // create userInfo and link back to user
+        UserInfo userInfo = userInfoMapper.toEntity(request);
+        userInfo.setUser(savedUser); // important
+        userInfoRepository.save(userInfo);
+
+        // optionally set the relationship for returning DTO
+        savedUser.setUserInfos(List.of(userInfo));
+
+        UserSignUpRespDTO userSignUpResponse = userMapper.toDtoForSignUp(savedUser);
         return userSignUpResponse;
     }
 
