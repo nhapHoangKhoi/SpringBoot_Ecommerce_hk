@@ -36,7 +36,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping("/signup")
-    @Operation(summary = "Sign up for user")
+    @Operation(summary = "Sign up for user normal account")
     public ResponseEntity<ApiResponse<UserSignUpRespDTO>> signUp(@RequestBody @Valid UserSignUpReqDTO request) {
         UserSignUpRespDTO userResponse = userService.signUp(request);
 
