@@ -6,7 +6,7 @@ import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
 import com.hoangkhoi.springboot_ecommerce.service.ProductImageService;
-import com.hoangkhoi.springboot_ecommerce.service.impl.ProductServiceImpl;
+import com.hoangkhoi.springboot_ecommerce.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/products")
 @AllArgsConstructor
 public class ProductController {
-    private final ProductServiceImpl productService;
+    private final ProductService productService;
     private final ProductImageService productImageService;
 
     // @GetMapping

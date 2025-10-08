@@ -4,7 +4,7 @@ import com.hoangkhoi.springboot_ecommerce.dto.request.CategoryReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.CategoryRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;
 import com.hoangkhoi.springboot_ecommerce.response.SuccessMessages;
-import com.hoangkhoi.springboot_ecommerce.service.impl.CategoryServiceImpl;
+import com.hoangkhoi.springboot_ecommerce.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/categories")
 @AllArgsConstructor
 public class CategoryController {
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
     // @GetMapping
     // @Operation(summary = "Get list categories")
