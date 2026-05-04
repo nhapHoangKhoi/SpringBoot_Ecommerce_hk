@@ -55,12 +55,6 @@ public class Product {
     private boolean isFeatured = false;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
     @Column(name = "created_at")

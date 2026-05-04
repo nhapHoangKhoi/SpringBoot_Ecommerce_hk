@@ -1,7 +1,6 @@
 package com.hoangkhoi.springboot_ecommerce.controller;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.RatingReqDTO;
-import com.hoangkhoi.springboot_ecommerce.dto.response.CartRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.ProductRespDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.RatingRespDTO;
 import com.hoangkhoi.springboot_ecommerce.response.ApiResponse;

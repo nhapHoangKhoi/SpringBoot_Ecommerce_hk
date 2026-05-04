@@ -2,7 +2,6 @@ package com.hoangkhoi.springboot_ecommerce.service.impl;
 
 import com.hoangkhoi.springboot_ecommerce.dto.request.RatingReqDTO;
 import com.hoangkhoi.springboot_ecommerce.dto.response.RatingRespDTO;
-import com.hoangkhoi.springboot_ecommerce.enums.OrderStatus;
 import com.hoangkhoi.springboot_ecommerce.exception.BadRequestException;
 import com.hoangkhoi.springboot_ecommerce.exception.ExceptionMessages;
 import com.hoangkhoi.springboot_ecommerce.exception.NotFoundException;
@@ -10,7 +9,6 @@ import com.hoangkhoi.springboot_ecommerce.mapper.RatingMapper;
 import com.hoangkhoi.springboot_ecommerce.model.Product;
 import com.hoangkhoi.springboot_ecommerce.model.Rating;
 import com.hoangkhoi.springboot_ecommerce.model.User;
-import com.hoangkhoi.springboot_ecommerce.repository.OrderRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.ProductRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.RatingRepository;
 import com.hoangkhoi.springboot_ecommerce.repository.UserRepository;
@@ -32,7 +30,6 @@ public class RatingServiceImpl implements RatingService {
     private final ProductRepository productRepository;
     private final RatingMapper ratingMapper;
     private final UserRepository userRepository;
-    private final OrderRepository orderRepository;
 
     @Override
     public Page<RatingRespDTO> getRatingsByProduct(UUID productId, int page, int limit) {
