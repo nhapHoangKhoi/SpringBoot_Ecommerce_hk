@@ -240,10 +240,10 @@ public class UserServiceImpl implements UserService {
     private ResponseCookie createCookie(String token, long maxAge) {
         return ResponseCookie.from("spring_token", token)
                 .httpOnly(true) // only Server is allowed to access this cookie
-                .secure(false)  // true: website https, false: website not https
+                .secure(true)  // true: website https, false: website not https
                 .path("/")
                 .maxAge(maxAge)
-                .sameSite("Strict")
+                .sameSite("None")
                 .build();
     }
 
