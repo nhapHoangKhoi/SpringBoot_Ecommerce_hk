@@ -27,4 +27,8 @@ public class SecurityApiConstants {
             "/api/v*/categories/**",
             "/api/v*/products/**"
     };
+
+    public static final String[] SERVER_HEARTBEAT_API = {
+            "/api/v*/server-heartbeat"
+    };
 }

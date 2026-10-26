@@ -54,6 +54,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(SecurityApiConstants.PUBLIC_API).permitAll()
+                    .requestMatchers(SecurityApiConstants.SERVER_HEARTBEAT_API).permitAll()
 
                     .requestMatchers(HttpMethod.GET, SecurityApiConstants.ADMIN_WRITE_API).permitAll()
                     // .requestMatchers(HttpMethod.GET, SecurityApiConstants.ADMIN_WRITE_API).hasAuthority(RoleName.ROLE_ADMIN.name())
